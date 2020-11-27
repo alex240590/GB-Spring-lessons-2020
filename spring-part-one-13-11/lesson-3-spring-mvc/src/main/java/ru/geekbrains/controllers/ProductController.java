@@ -35,6 +35,7 @@ public class ProductController {
         return "product_form";
     }
 
+    //Added
     @GetMapping("/new")
     public String newProduct(Product product) {
         productRepository.insert(product);
@@ -47,6 +48,7 @@ public class ProductController {
         return "redirect:/product";
     }
 
+    //Added
     @GetMapping("/delete")
     public String deleteProduct(Product product) {
         productRepository.delete(product.getId());
