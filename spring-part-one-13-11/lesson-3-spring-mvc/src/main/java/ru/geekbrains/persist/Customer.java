@@ -1,5 +1,6 @@
 package ru.geekbrains.persist;
 
+//Added
 public class Customer {
 
     private Long id;
