@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/GB-Spring-lessons-2020.iml" filepath="$PROJECT_DIR$/.idea/GB-Spring-lessons-2020.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-part-one-13-11/lesson-1-basics/lesson-1-basics.iml" filepath="$PROJECT_DIR$/spring-part-one-13-11/lesson-1-basics/lesson-1-basics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-part-one-13-11/lesson-2-servlet-app/lesson-2-servlet-app.iml" filepath="$PROJECT_DIR$/spring-part-one-13-11/lesson-2-servlet-app/lesson-2-servlet-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-part-one-13-11/lesson-3-spring-mvc/lesson-3-spring-mvc.iml" filepath="$PROJECT_DIR$/spring-part-one-13-11/lesson-3-spring-mvc/lesson-3-spring-mvc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-part-one-13-11/spring-part-one-13-11.iml" filepath="$PROJECT_DIR$/spring-part-one-13-11/spring-part-one-13-11.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="lesson-3-spring-mvc" />
+        <module name="lesson-2-servlet-app" />
+        <module name="lesson-1-basics" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lesson-1-basics" target="11" />
+      <module name="lesson-2-servlet-app" target="11" />
+      <module name="lesson-3-spring-mvc" target="11" />
+      <module name="spring-part-one-13-11" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
