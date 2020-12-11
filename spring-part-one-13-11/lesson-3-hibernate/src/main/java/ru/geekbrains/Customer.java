@@ -1,21 +1,30 @@
-package ru.geekbrains.persist;
+package ru.geekbrains;
 
-//Added
+import javax.persistence.*;
+import java.util.List;
+
+@Entity
+@Table(name = "customers")
 public class Customer {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String firstName;
 
     private String lastName;
 
-    public Customer() {
-    }
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
+    private List<Order> orders;
 
     public Customer(Long id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public Customer() {
     }
 
     public Long getId() {
@@ -42,4 +51,11 @@ public class Customer {
         this.lastName = lastName;
     }
 
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
 }
