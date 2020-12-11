@@ -1,7 +1,6 @@
 package ru.geekbrains;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -12,21 +11,16 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private Long number;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems;
 
     @ManyToOne
     private Customer customer;
 
-    @OneToMany(mappedBy = "id")
-    private List<OrderLine> lines;
+    public Order() {
+    }
 
-
-    public Order(){}
-
-    public Order(Long id, Long number, Customer customer) {
-        this.id = id;
-        this.number = number;
+    public Order(Customer customer) {
         this.customer = customer;
     }
 
@@ -38,14 +32,13 @@ public class Order {
         this.id = id;
     }
 
-    public Long getNumber() {
-        return number;
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
     }
 
-    public void setNumber(Long number) {
-        this.number = number;
+    public void setOrderItems(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
     }
-
 
     public Customer getCustomer() {
         return customer;
@@ -54,23 +47,4 @@ public class Order {
     public void setCustomer(Customer customer) {
         this.customer = customer;
     }
-
-    public List<OrderLine> getLines() {
-        return lines;
-    }
-
-    public void setLines(List<OrderLine> lines) {
-        this.lines = lines;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "id=" + id +
-                ", number='" + number + '\'' +
-                ", customer=" + customer.getName() +
-                '}';
-    }
-
 }

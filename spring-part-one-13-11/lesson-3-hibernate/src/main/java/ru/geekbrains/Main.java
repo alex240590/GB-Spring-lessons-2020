@@ -4,121 +4,18 @@ import org.hibernate.cfg.Configuration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.criteria.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class Main {
-    private static Long orderNumber = 1L;
-
-    private static EntityManagerFactory emf = new Configuration()
-            .configure("hibernate.cfg.xml")
-            .buildSessionFactory();
 
     public static void main(String[] args) {
-        fillDB();
-
-        EntityManager em = emf.createEntityManager();
-
-        List<Product> prod = em.createQuery("from Product", Product.class)
-                .getResultList();
-
-        List<Customer> customer = em.createQuery("from Customer", Customer.class)
-                .getResultList();
-
-        createOrder(customer.get(0), new ArrayList<Product>(Arrays.asList(prod.get(0), prod.get(2))), 5);
-
-        Order order = em.find(Order.class, orderNumber-1);
-        System.out.println(order);
-
-        em.close();
-    }
-
-    private static void createOrder(Customer customer, ArrayList<Product> products, int quantity){
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        Order o = new Order(null, orderNumber, customer);
-        em.persist(o);
-        em.getTransaction().commit();
-        Order order = em.find(Order.class, orderNumber);
-
-        em.getTransaction().begin();
-        for (Product p: products){
-            OrderLine ol = new OrderLine(null, order, p, quantity, p.getPrice());
-            em.persist(ol);
-        }
-        em.getTransaction().commit();
-
-        em.close();
-        orderNumber++;
-    }
-
-
-
-    private static void fillDB(){
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-
-        //create customers
-        Customer c1 = new Customer(null, "Alex");
-        Customer c2 = new Customer(null, "Dan");
-        Customer c3 = new Customer(null, "Max");
-
-        em.persist(c1);
-        em.persist(c2);
-        em.persist(c3);
-
-        //create products
-        Product p1 = new Product(null, "iPhone 8", new BigDecimal(50000));
-        Product p2 = new Product(null, "iPhone12 Pro", new BigDecimal(100000));
-        Product p3 = new Product(null, "iPad Air", new BigDecimal(60000));
-        Product p4 = new Product(null, "iPad Pro", new BigDecimal(80000));
-        Product p5 = new Product(null, "Apple Watch 5", new BigDecimal(20000));
-
-        em.persist(p1);
-        em.persist(p2);
-        em.persist(p3);
-        em.persist(p4);
-        em.persist(p5);
-
-      //create orders
-        Order o1 = new Order(null, 1L, c1);
-        Order o2 = new Order(null, 2L, c2);
-        Order o3 = new Order(null, 3L, c3);
-        Order o4 = new Order(null, 4L, c3);
-        em.persist(o1);
-        em.persist(o2);
-        em.persist(o3);
-        em.persist(o4);
-
-        //create order lines
-        OrderLine ol1 = new OrderLine(null, o1, p1, 5, p1.getPrice());
-        OrderLine ol2 = new OrderLine(null,o1, p2, 5, p2.getPrice());
-        OrderLine ol3 = new OrderLine(null,o2, p1, 10, p1.getPrice());
-        OrderLine ol4 = new OrderLine(null,o2, p2, 10, p2.getPrice());
-        OrderLine ol5 = new OrderLine(null,o3, p3, 20, p3.getPrice());
-        OrderLine ol6 = new OrderLine(null,o3, p4, 20, p4.getPrice());
-        OrderLine ol7 = new OrderLine(null,o4, p5, 3, p5.getPrice());
-        em.persist(ol1);
-        em.persist(ol2);
-        em.persist(ol3);
-        em.persist(ol4);
-        em.persist(ol5);
-        em.persist(ol6);
-        em.persist(ol7);
-
-        em.getTransaction().commit();
-
-        em.close();
-
-    }
-
-
-
-
-}
+        EntityManagerFactory emFactory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .buildSessionFactory();
 
         // INSERT
 //        EntityManager em = emFactory.createEntityManager();
@@ -211,10 +108,57 @@ public class Main {
 //        em.close();
 
         // SELECT one-to-many
-//        EntityManager em = emFactory.createEntityManager();
-//
-//        List<Product> products = em.createQuery("select p from Product p inner join p.category c", Product.class)
-//                .getResultList();
-//        products.forEach(System.out::println);
-//    }
-//}
+        EntityManager em = emFactory.createEntityManager();
+
+        List<Product> products = em.createQuery(
+                "select p " +
+                        "from Product p " +
+                        " inner join p.category c " +
+                        "where p.price between :minPrice and :maxPrice " +
+                        "  and c.id = :categoryId " +
+                        "  and p.name like :prodNamePattern ",
+                Product.class)
+                .setParameter("minPrice", new BigDecimal(0))
+                .setParameter("maxPrice", new BigDecimal(10000))
+                .setParameter("categoryId", 3L)
+                .setParameter("prodNamePattern", "i%")
+                .getResultList();
+        products.forEach(System.out::println);
+
+
+        filterProducts(em, new BigDecimal(0), new BigDecimal(10000), 3L, "%i")
+                .forEach(System.out::println);
+
+        filterProducts(em, new BigDecimal(0), new BigDecimal(10000), null, null)
+                .forEach(System.out::println);
+    }
+
+    private static List<Product> filterProducts(EntityManager em,
+                                         BigDecimal minPrice, BigDecimal maxPrice,
+                                         Long categoryId, String namePattern) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Product> query = cb.createQuery(Product.class);
+        Root<Product> root = query.from(Product.class); // from Product p
+
+        Join<Object, Object> category = root.join("category", JoinType.LEFT);
+
+        List<Predicate> predicates = new ArrayList<>();
+        if (minPrice != null) {
+            predicates.add(cb.ge(root.get("price"), minPrice));
+        }
+        if (maxPrice != null) {
+            predicates.add(cb.le(root.get("price"), maxPrice));
+        }
+        if (categoryId != null) {
+            predicates.add(cb.equal(category.get("id"), 3));
+        }
+        if (namePattern != null) {
+            predicates.add(cb.like(root.get("name"), namePattern));
+        }
+
+        return em.createQuery(query
+                .select(root)
+                .where(predicates.toArray(new Predicate[0]))
+        ).getResultList();
+    }
+ }

@@ -3,14 +3,13 @@ package ru.geekbrains.controllers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import ru.geekbrains.persist.Product;
-import ru.geekbrains.persist.ProductRepository;
+import org.springframework.web.bind.annotation.*;
+import ru.geekbrains.persist.entity.Product;
+import ru.geekbrains.persist.repo.ProductRepository;
+import ru.geekbrains.persist.repo.ProductSpecification;
 
 @Controller
 @RequestMapping("/product")
@@ -22,9 +21,25 @@ public class ProductController {
     private ProductRepository productRepository;
 
     @GetMapping
-    public String indexProductPage(Model model) {
+    public String indexProductPage(Model model, @RequestParam(name = "nameFilter", required = false) String nameFilter, @RequestParam(name = "priceFilter", required = false) String priceFilter) {
         logger.info("Product page update");
-        model.addAttribute("products", productRepository.findAll());
+
+        Specification<Product> spec = Specification.where(null);
+
+        if (nameFilter != null && !nameFilter.isBlank()) {
+            spec = spec.and(ProductSpecification.nameLike(nameFilter));
+        }
+
+        // TODO добавить обработку параметров формы
+
+        if (minPrice != null) {
+            spec = spec.and(ProductSpecification.priceGreaterOrEqualsThan(minPrice));
+        }
+        if (maxPrice != null) {
+            spec = spec.and(ProductSpecification.priceLesserOrEqualsThan(maxPrice));
+        }
+
+        model.addAttribute("products", productRepository.findAll(spec));
         return "product";
     }
 
@@ -35,23 +50,22 @@ public class ProductController {
         return "product_form";
     }
 
-    //Added
     @GetMapping("/new")
-    public String newProduct(Product product) {
-        productRepository.insert(product);
+    public String newProduct(Model model) {
+        model.addAttribute(new Product());
         return "product_form";
     }
 
     @PostMapping("/update")
     public String updateProduct(Product product) {
-        productRepository.update(product);
+        productRepository.save(product);
         return "redirect:/product";
     }
 
-    //Added
-    @GetMapping("/delete")
-    public String deleteProduct(Product product) {
-        productRepository.delete(product.getId());
+    @DeleteMapping("/{id}")
+    public String deleteProduct(@PathVariable(value = "id") Long id) {
+        logger.info("Delete product with id {}", id);
+        productRepository.deleteById(id);
         return "redirect:/product";
     }
 }
