@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/GB-Spring-lessons-2020.iml" filepath="$PROJECT_DIR$/.idea/GB-Spring-lessons-2020.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-part-one-13-11/lesson-1-basics/lesson-1-basics.iml" filepath="$PROJECT_DIR$/spring-part-one-13-11/lesson-1-basics/lesson-1-basics.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-part-one-13-11/lesson-2-servlet-app/lesson-2-servlet-app.iml" filepath="$PROJECT_DIR$/spring-part-one-13-11/lesson-2-servlet-app/lesson-2-servlet-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-part-one-13-11/lesson-3-hibernate/lesson-3-hibernate.iml" filepath="$PROJECT_DIR$/spring-part-one-13-11/lesson-3-hibernate/lesson-3-hibernate.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-part-one-13-11/lesson-3-spring-mvc/lesson-3-spring-mvc.iml" filepath="$PROJECT_DIR$/spring-part-one-13-11/lesson-3-spring-mvc/lesson-3-spring-mvc.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-part-one-13-11/spring-part-one-13-11.iml" filepath="$PROJECT_DIR$/spring-part-one-13-11/spring-part-one-13-11.iml" />
     </modules>
