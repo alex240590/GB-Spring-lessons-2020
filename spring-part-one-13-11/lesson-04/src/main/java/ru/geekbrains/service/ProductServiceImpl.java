@@ -55,15 +55,14 @@ public class ProductServiceImpl implements ProductService{
         }
 
 
-        if (sortField.isPresent() && !sortField.get().equals("")) {
+        if (sortField.isPresent() && !sortField.get().equals("") && sortOrder.isPresent()) {
             return productRepository.findAll(spec, PageRequest.of(page.orElse(1) - 1,
                     size.orElse(5),
-                    Sort.by(Sort.Direction.ASC, sortField.get())));
-        }else{
+                    Sort.by(Sort.Direction.fromString(sortOrder.get()), sortField.get())));
+        }
                 return productRepository.findAll(spec, PageRequest.of(page.orElse(1) - 1,
                         size.orElse(5),
                         Sort.by(Sort.Direction.ASC, "id")));
-            }
     }
 
     @Override

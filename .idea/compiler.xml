@@ -10,6 +10,7 @@
         <module name="lesson-3-spring-mvc" />
         <module name="lesson-3-hibernate" />
         <module name="lesson-1-basics" />
+        <module name="spring-boot-app" />
         <module name="lesson-04" />
       </profile>
     </annotationProcessing>

@@ -33,7 +33,8 @@ public class ProductController {
                                    @RequestParam(name = "maxFilter") Optional<BigDecimal> maxFilter,
                                    @RequestParam(name = "page") Optional<Integer> page,
                                    @RequestParam(name = "size") Optional<Integer> size,
-                                   @RequestParam(name = "sortField") Optional<String> sortField) {
+                                   @RequestParam(name = "sortField") Optional<String> sortField,
+                                   @RequestParam(name = "sortOrder") Optional<String> sortOrder) {
 
         logger.info("Product page update");
 
