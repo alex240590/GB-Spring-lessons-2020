@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="war" name="lesson-04:war">
-    <output-path>$PROJECT_DIR$/spring-part-one-13-11/lesson-04/target</output-path>
+    <output-path>$PROJECT_DIR$/spring-part-one-13-11/target</output-path>
     <properties id="maven-jee-properties">
       <options>
         <module>lesson-04</module>

@@ -12,6 +12,8 @@ import ru.geekbrains.persist.repo.UserRepository;
 import java.util.List;
 
 // http://localhost:8080/mvc-app/swagger-ui/index.html
+
+@CrossOrigin(origins = "http://localhost:63342")
 @Tag(name = "User resource API", description = "API to manipulate User resource ...")
 @RequestMapping("/api/v1/user")
 @RestController
@@ -43,10 +45,11 @@ public class UserResource {
 
     @PutMapping(consumes = "application/json", produces = "application/json")
     public User updateUser(@RequestBody User user) {
-        if (user.getId() != null) {
-        repository.save(user);
-        return user;}
-        else throw new NotFoundException();
+        if (repository.existsById(user.getId())) {
+            repository.save(user);
+            return user;
+        }
+        throw new NotFoundException();
     }
 
     @DeleteMapping(path = "/{id}/id")

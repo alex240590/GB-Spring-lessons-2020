@@ -16,6 +16,7 @@ import ru.geekbrains.service.ProductService;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/product")

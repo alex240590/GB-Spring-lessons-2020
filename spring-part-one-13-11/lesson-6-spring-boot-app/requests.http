@@ -1,5 +1,5 @@
 GET http://localhost:8080/mvc-app/api/v1/user/all
-
+Authorization: Basic admin admin
 ###
 
 GET http://localhost:8080/mvc-app/api/v1/user/4/id
