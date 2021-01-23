@@ -6,16 +6,38 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="lesson-3-spring-mvc" />
         <module name="lesson-2-servlet-app" />
+        <module name="lesson-3-spring-mvc" />
         <module name="lesson-1-basics" />
+        <module name="spring-boot-app" />
+        <module name="spring-boot" />
+        <module name="lesson-8-final" />
+        <module name="lesson-3-hibernate" />
+      </profile>
+      <profile name="Annotation profile for lesson-04" enabled="true">
+        <sourceOutputDir name="../target/generated-sources/annotations" />
+        <sourceTestOutputDir name="../target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="lesson-04" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="lesson-04" target="1.5" />
       <module name="lesson-1-basics" target="11" />
       <module name="lesson-2-servlet-app" target="11" />
+      <module name="lesson-3-hibernate" target="11" />
       <module name="lesson-3-spring-mvc" target="11" />
+      <module name="lesson-8-final" target="11" />
+      <module name="spring-boot" target="11" />
+      <module name="spring-boot-app" target="11" />
       <module name="spring-part-one-13-11" target="11" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="lesson-8-final" options="-parameters" />
+      <module name="spring-boot" options="-parameters" />
+      <module name="spring-boot-app" options="-parameters" />
+    </option>
   </component>
 </project>

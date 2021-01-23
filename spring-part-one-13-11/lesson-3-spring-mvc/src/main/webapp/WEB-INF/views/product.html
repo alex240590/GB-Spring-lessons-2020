@@ -35,8 +35,25 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <a class="btn btn-primary" href="product_form.html">Add Product</a>
+            <a class="btn btn-primary" th:href="@{/product/new}">Add Product</a>
         </div>
+
+        <form class="form-inline mt-3" method="get">
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="name-filter" class="sr-only">Name filter:</label>
+                <input th:value="${param.nameFilter}" type="text" class="form-control" name="nameFilter" id="name-filter" placeholder="Name filter">
+            </div>
+            <!-- TODO добавить поля фильтров -->
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="minPriceInput">minimum price</label>
+                <input class="form-control" th:value="${param.minPrice}" name="minPrice" type="number" id="minPriceInput" placeholder="Min price">
+            </div>
+            <div class="form-group mx-sm-3 mb-2">
+                <label for="maxPriceInput">Maximum price</label>
+                <input class="form-control" th:value="${param.maxPrice}" name="maxPrice" type="number" id="maxPriceInput" placeholder="Max price">
+            </div>
+            <button type="submit" class="btn btn-primary mb-2">Apply</button>
+        </form>
 
         <div class="col-12">
             <table class="table table-bordered my-2">
@@ -53,11 +70,17 @@
                 <tr th:each="product : ${products}">
                     <th scope="row" th:text="${product.id}">1</th>
                     <td th:text="${product.name}">MacBook Air 13" CZ</td>
-                    <td th:text="${product.description}">MacBook - Intel Core i5 5350U Broadwell, 13" TN lesklý 1440 × 900, RAM 8GB DDR3</td>
+                    <td th:text="${product.description}">MacBook - Intel Core i5 5350U Broadwell, 13" TN lesklý 1440 ×
+                        900, RAM 8GB DDR3
+                    </td>
                     <td th:text="${product.price}">$1000</td>
                     <td>
-                        <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
+                        <a class="btn btn-success" th:href="@{/product/{id}(id = ${product.id})}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form class="d-inline" th:method="delete" th:action="@{/product/{id}(id = ${product.id})}">
+                            <button type="submit" class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
